@@ -1,3 +1,5 @@
+import { Pencil, Trash } from "lucide-react";
+
 export default function JobLists() {
   return (
     <div className="border border-[#737373]/60 rounded overflow-hidden">
@@ -9,6 +11,7 @@ export default function JobLists() {
             <TableHeader text="Status" />
             <TableHeader text="Date" />
             <TableHeader text="Note" />
+            <TableHeader text="" />
           </tr>
         </thead>
         <tbody>
@@ -23,6 +26,16 @@ export default function JobLists() {
             </td>
             <td className="py-3.5 px-4 text-[#737373] text-sm max-w-50 truncate">
               Applied through careers page
+            </td>
+            <td className="py-3.5 px-4 text-right">
+              <div className="flex justify-end gap-2 ">
+                <button className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium w-8 h-8">
+                  <Pencil className="w-3.5 h-3.5" />
+                </button>
+                <button className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium w-8 h-8">
+                  <Trash className="w-3.5 h-3.5 text-red-700" />
+                </button>
+              </div>
             </td>
           </tr>
         </tbody>

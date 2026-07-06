@@ -1,6 +1,37 @@
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Signup() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirm, setConfirm] = useState("");
+
+  const navigate = useNavigate();
+
+  const handleSignUp = async () => {
+    try {
+      const res = await fetch("http://localhost:5000/signup", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email,
+          password,
+          confirm,
+        }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        navigate("/");
+      } else {
+        alert(data.message);
+      }
+    } catch (err) {
+      console.error({ message: err.message });
+    }
+  };
   return (
     <div className="min-h-screen flex items-center justify-center bg-transparent px-4">
       <div className="w-full max-w-md">
@@ -14,8 +45,8 @@ export default function Signup() {
           <div className="space-y-4">
             <div className="space-y-2 flex flex-col gap-2">
               <label
-                class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                for="email"
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                htmlFor="email"
               >
                 Email
               </label>
@@ -25,12 +56,14 @@ export default function Signup() {
                 id="email"
                 placeholder="your@gmail.com"
                 required={true}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
             </div>
             <div className="space-y-2 flex flex-col gap-2">
               <label
-                class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                for="password"
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                htmlFor="password"
               >
                 Password
               </label>
@@ -40,12 +73,14 @@ export default function Signup() {
                 id="password"
                 placeholder="Enter your password"
                 required={true}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
             </div>
             <div className="space-y-2 flex flex-col gap-2">
               <label
-                class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                for="confirm"
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                htmlFor="confirm"
               >
                 Confirm Password
               </label>
@@ -55,17 +90,25 @@ export default function Signup() {
                 id="confirm"
                 placeholder="Enter your password"
                 required={true}
+                value={confirm}
+                onChange={(e) => setConfirm(e.target.value)}
               />
             </div>
-            <button className="w-full h-12 bg-black text-white rounded-xl cursor-pointer hover:bg-[#2f2a2a]">
+            <button
+              className="w-full h-12 bg-black text-white rounded-xl cursor-pointer hover:bg-[#2f2a2a]"
+              onClick={handleSignUp}
+            >
               Create account
             </button>
           </div>
         </div>
 
-        <p class="text-center text-sm text-muted-foreground mt-6">
+        <p className="text-center text-sm text-muted-foreground mt-6">
           Already have account?{" "}
-          <Link class="text-primary font-medium hover:underline" to="/login">
+          <Link
+            className="text-primary font-medium hover:underline"
+            to="/login"
+          >
             Log in
           </Link>
         </p>
