@@ -4,9 +4,11 @@ import MainPage from "../components/MainPage";
 
 import NavBar from "../components/NavBar";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Home() {
   const [currentUser, setCurrentUser] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function trackCurrentUser() {
@@ -14,6 +16,9 @@ export default function Home() {
         credentials: "include",
       });
       const data = await res.json();
+      if (!res.ok) {
+        navigate("/signup");
+      }
       setCurrentUser(data);
     }
     trackCurrentUser();
