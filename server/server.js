@@ -13,7 +13,7 @@ app.use(express.json());
 
 app.use(
   cors({
-    original: "http://localhost:5173",
+    origin: "http://localhost:5173",
     credentials: true,
   }),
 );
@@ -21,6 +21,7 @@ app.use(
 app.use(
   session({
     session: "auth-secret-key",
+    secret: "auth-secret-key",
     resave: false,
     saveUninitialized: false,
     cookie: {
@@ -32,7 +33,7 @@ app.use(
 const apiRouter = express.Router();
 
 apiRouter.post("/login", logInPage);
-apiRouter.post("/signup", logInPage);
+apiRouter.post("/signup", signupPage);
 apiRouter.get("/logout", logoutPage);
 apiRouter.get("/me", getCurrentUser);
 

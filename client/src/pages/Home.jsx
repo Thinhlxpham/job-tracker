@@ -17,7 +17,8 @@ export default function Home() {
       setCurrentUser(data);
     }
     trackCurrentUser();
-  });
+  }, []);
+
   return (
     <>
       <NavBar currentUser={currentUser} />
