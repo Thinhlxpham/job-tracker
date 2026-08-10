@@ -1,7 +1,8 @@
-import { LogOut } from "lucide-react";
+import { LogIn, LogOut } from "lucide-react";
 import { Link } from "react-router-dom";
 
 export default function NavBar({ currentUser }) {
+  console.log(currentUser);
   return (
     <nav className="border-b border-border/60 bg-background/80 backdrop-blur-sm sticky top-0 z-10">
       <div className="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
@@ -12,11 +13,19 @@ export default function NavBar({ currentUser }) {
           <span className="text-sm text-muted-foreground hidden sm:block">
             {currentUser?.email || "Welcome Guest"}
           </span>
-          <Link to={`/login`} className="cursor-pointer">
-            <button className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 hover:bg-accent hover:text-accent-foreground h-8 w-8 cursor-pointer">
-              <LogOut className="w-4 h-4" />
-            </button>
-          </Link>
+          {currentUser ? (
+            <Link to={`/login`} className="cursor-pointer">
+              <button className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 hover:bg-accent hover:text-accent-foreground h-8 w-8 cursor-pointer">
+                <LogOut className="w-4 h-4" />
+              </button>
+            </Link>
+          ) : (
+            <Link to={`/login`} className="cursor-pointer">
+              <button className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 hover:bg-accent hover:text-accent-foreground h-8 w-8 cursor-pointer">
+                <LogIn className="w-4 h-4" />
+              </button>
+            </Link>
+          )}
         </div>
       </div>
     </nav>

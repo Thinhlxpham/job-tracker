@@ -44,8 +44,8 @@ export default function Login() {
           <div className="space-y-4">
             <div className="space-y-2 flex flex-col gap-2">
               <label
-                class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                for="email"
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                htmlFor="email"
               >
                 Email
               </label>
@@ -62,7 +62,7 @@ export default function Login() {
             <div className="space-y-2 flex flex-col gap-2">
               <label
                 className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                for="password"
+                htmlFor="password"
               >
                 Password
               </label>
