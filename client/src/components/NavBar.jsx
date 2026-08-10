@@ -1,5 +1,5 @@
 import { LogOut } from "lucide-react";
-import { useNavigate } from "react-router";
+import { Link } from "react-router-dom";
 
 export default function NavBar({ currentUser }) {
   return (
@@ -10,13 +10,13 @@ export default function NavBar({ currentUser }) {
         </h1>
         <div className="flex items-center gap-3">
           <span className="text-sm text-muted-foreground hidden sm:block">
-            {currentUser?.email || "Guest"}
+            {currentUser?.email || "Welcome Guest"}
           </span>
-          <button
-            className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 hover:bg-accent hover:text-accent-foreground h-8 w-8"
-          >
-            <LogOut className="w-4 h-4" />
-          </button>
+          <Link to={`/login`} className="cursor-pointer">
+            <button className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 hover:bg-accent hover:text-accent-foreground h-8 w-8 cursor-pointer">
+              <LogOut className="w-4 h-4" />
+            </button>
+          </Link>
         </div>
       </div>
     </nav>
