@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import session from "express-session";
-
+import dotenv from "dotenv";
 import { logInPage } from "./auth/loginPage.js";
 import { signupPage } from "./auth/signupPage.js";
 import { logoutPage } from "./auth/logoutPage.js";
@@ -9,7 +9,11 @@ import { getCurrentUser } from "./auth/currentUser.js";
 const app = express();
 const PORT = 5000;
 
+dotenv.config();
+
 app.use(express.json());
+
+const secret = process.env.JOB_SESSION_SECRET;
 
 app.use(
   cors({
@@ -20,13 +24,13 @@ app.use(
 
 app.use(
   session({
-    session: "auth-secret-key",
-    secret: "auth-secret-key",
+    secret: secret,
     resave: false,
     saveUninitialized: false,
     cookie: {
       httpOnly: true,
-      maxAge: 1000 * 60 * 60,
+      secure: false,
+      sameSite: "lax",
     },
   }),
 );

@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -31,10 +30,6 @@ export default function Login() {
       console.error({ message: err.message });
     }
   };
-
-  useEffect(() => {
-    handleLogin();
-  });
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-transparent px-4">
