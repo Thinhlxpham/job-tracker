@@ -20,13 +20,12 @@ export default function Home() {
         });
         const data = await res.json();
         if (!res.ok) {
-          navigate("/signup");
+          navigate("/");
           return;
         }
-        setCurrentUser(data);
+        if (data.loggedIn) setCurrentUser(data.email);
       } catch (err) {
         console.error("Failed to fetch current user:", err);
-        navigate("/signup");
       } finally {
         setLoading(false);
       }
@@ -39,8 +38,8 @@ export default function Home() {
 
   return (
     <>
-      <NavBar currentUser={currentUser} />
-      <MainPage />
+      <NavBar currentUser={currentUser} setCurrentUser={setCurrentUser} />
+      <MainPage currentUser={currentUser} />
       <FormModal />
     </>
   );
