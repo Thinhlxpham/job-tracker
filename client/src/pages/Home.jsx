@@ -10,37 +10,49 @@ import { useEffect } from "react";
 export default function Home() {
   const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [jobs, setJobs] = useState([]);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    async function trackCurrentUser() {
-      try {
-        const res = await fetch("http://localhost:5000/me", {
-          credentials: "include",
-        });
-        const data = await res.json();
-        if (!res.ok) {
-          navigate("/");
-          return;
-        }
-        if (data.loggedIn) setCurrentUser(data.email);
-      } catch (err) {
-        console.error("Failed to fetch current user:", err);
-      } finally {
-        setLoading(false);
+  async function fetchCurrentUser() {
+    try {
+      const res = await fetch("http://localhost:5000/me", {
+        credentials: "include",
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        navigate("/");
+        return;
       }
+      if (data.loggedIn) setCurrentUser(data.email);
+    } catch (err) {
+      console.error("Failed to fetch current user:", err);
+    } finally {
+      setLoading(false);
     }
+  }
 
-    trackCurrentUser();
+  async function getLoadJobs() {
+    const response = await fetch("http://localhost:5000/jobs", {
+      method: "GET",
+      credentials: "include",
+    });
+
+    const data = await response.json();
+
+    setJobs(data);
+  }
+  useEffect(() => {
+    fetchCurrentUser();
+    getLoadJobs();
   }, []);
 
-  if (loading) return null;
+  if (loading) return <h2>Loading...</h2>;
 
   return (
     <>
       <NavBar currentUser={currentUser} setCurrentUser={setCurrentUser} />
-      <MainPage currentUser={currentUser} />
-      <FormModal />
+      <MainPage jobs={jobs} getLoadJobs={getLoadJobs} />
+      <FormModal getLoadJobs={getLoadJobs} />
     </>
   );
 }

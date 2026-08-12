@@ -4,6 +4,7 @@ import session from "express-session";
 import dotenv from "dotenv";
 
 import { apiRouter } from "./controllers/apiRouter.js";
+import { jobsRouter } from "./controllers/jobsRouter.js";
 const app = express();
 const PORT = 5000;
 
@@ -20,6 +21,8 @@ app.use(
   }),
 );
 
+app.use(express.static("client"));
+
 app.use(
   session({
     secret: secret,
@@ -34,5 +37,6 @@ app.use(
 );
 
 app.use("/", apiRouter);
+app.use("/jobs", jobsRouter);
 
 app.listen(PORT, () => console.log(`The current server run is ${PORT}`));
