@@ -10,7 +10,7 @@ export async function updateJobs(req, res) {
   try {
     const db = await createNewJob();
     const result = await db.run(
-      `UPDATE jobs SET company_name = ?, position = ?,status=?, date_applied=?, note=?`,
+      `UPDATE jobs SET company_name = ?, position = ?,status=?, date_applied=?, note=? WHERE id = ?`,
       [company_name, position, status, date_applied, note],
     );
     if (result.changes === 0) {

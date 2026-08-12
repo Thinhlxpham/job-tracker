@@ -14,7 +14,7 @@ export async function createNewJob(req, res) {
   try {
     const db = await createJobsData();
     const result = await db.run(
-      "INSERT INTO jobs (company_name, position, status, date_applied, note)",
+      "INSERT INTO jobs (company_name, position, status, date_applied, note) VALUES (?, ?, ?, ?, ?)",
       [company_name, position, status, date_applied, note],
     );
     res.status(201).json({ id: result.lastID });

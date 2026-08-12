@@ -4,31 +4,41 @@ import { useState } from "react";
 export default function FormModal({ isOpen, handleClose, getLoadJobs }) {
   const [company, setCompany] = useState("");
   const [position, setPosition] = useState("");
+  const [status, setStatus] = useState("Applied");
 
   async function handleSubmit(e) {
     e.preventDefault();
-    await fetch(
-      "http://localhost:5000/jobs",
-      {
-        method: "POST",
+    const res = await fetch("http://localhost:5000/jobs", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
       },
-      {
+      credentials: "include",
+      body: JSON.stringify({
         company,
         position,
-        location: "Remote",
-        status: "Applied",
+        status,
         applied_date: new Date().toISOString(),
-      },
-    );
+      }),
+    });
+
+    if (!res.ok) {
+      throw new Error("Fail to add new job");
+    }
 
     setCompany("");
     setPosition("");
+    setStatus("Applied");
 
     getLoadJobs();
+    handleClose();
   }
   return (
     <Modal open={isOpen} onClose={handleClose}>
-      <div className="bg-white fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border p-6 shadow-lg duration-100 rounded-[10px] ">
+      <form
+        onSubmit={handleSubmit}
+        className="bg-white fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border p-6 shadow-lg duration-100 rounded-[10px] "
+      >
         <div className="flex flex-col space-y-1.5 text-center sm:text-left">
           <h2 className="font-semibold tracking-tight font-heading text-lg">
             Add Application
@@ -38,7 +48,7 @@ export default function FormModal({ isOpen, handleClose, getLoadJobs }) {
           <div className="space-y-1.5 flex flex-col gap-2">
             <label
               className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 "
-              for="company"
+              htmlFor="company"
             >
               Company Name
             </label>
@@ -55,7 +65,7 @@ export default function FormModal({ isOpen, handleClose, getLoadJobs }) {
           <div className="space-y-1.5 flex flex-col gap-2">
             <label
               className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 "
-              for="title"
+              htmlFor="position"
             >
               Job Title
             </label>
@@ -71,21 +81,27 @@ export default function FormModal({ isOpen, handleClose, getLoadJobs }) {
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-1.5 flex flex-col gap-2">
-              <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+              <label
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                htmlFor="status"
+              >
                 Status
               </label>
 
-              <select className="flex h-9 w-full items-center justify-between whitespace-nowrap rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm cursor-pointer">
+              <select
+                className="flex h-9 w-full items-center justify-between whitespace-nowrap rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm cursor-pointer"
+                onChange={(e) => setStatus(e.target.value)}
+              >
                 <option value="Applied">Applied</option>
                 <option value="Interview">Interview</option>
-                <option value="Reject">Reject</option>
                 <option value="Offer">Offer</option>
+                <option value="Reject">Reject</option>
               </select>
             </div>
             <div className="space-y-1.5 flex flex-col gap-2">
               <label
                 className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                for="date"
+                htmlFor="date"
               >
                 Application Date
               </label>
@@ -98,7 +114,7 @@ export default function FormModal({ isOpen, handleClose, getLoadJobs }) {
           <div className="space-y-1.5 flex flex-col gap-2">
             <label
               className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-              for="notes"
+              htmlFor="notes"
             >
               Notes
             </label>
@@ -118,7 +134,6 @@ export default function FormModal({ isOpen, handleClose, getLoadJobs }) {
             <button
               type="submit"
               className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none border border-input bg-black shadow-sm hover:bg-[#353434] hover:text-white h-9  text-white cursor-pointer px-4 py-2"
-              onClick={handleSubmit}
             >
               Add
             </button>
@@ -130,7 +145,7 @@ export default function FormModal({ isOpen, handleClose, getLoadJobs }) {
             <X className="w-4 h-4 cursor-pointer" />
           </button>
         </div>
-      </div>
+      </form>
     </Modal>
   );
 }

@@ -9,7 +9,7 @@ export async function createJobsData() {
   });
 
   await db.exec(`
-    CREATE TABLE IF NOT EXIST jobs (
+    CREATE TABLE IF NOT EXISTS jobs (
       id INTEGER PRIMARY KEY,
       company_name TEXT NOT NULL,
       position TEXT NOT NULL,
