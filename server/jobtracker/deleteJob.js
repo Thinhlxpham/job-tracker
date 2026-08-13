@@ -1,8 +1,8 @@
-import { createNewJob } from "./createNewJob.js";
+import { createJobsData } from "../database/jobsData.js";
 
 export async function deleteJob(req, res) {
   try {
-    const db = await createNewJob();
+    const db = await createJobsData();
     const result = await db.run(`DELETE FROM jobs WHERE id=?`, [req.params.id]);
     if (!result) {
       return res.status(404).json({ error: "Job not found" });

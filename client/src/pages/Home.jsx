@@ -1,5 +1,5 @@
 import { useState } from "react";
-import FormModal from "../components/FormModal";
+
 import MainPage from "../components/MainPage";
 
 import NavBar from "../components/NavBar";
@@ -20,10 +20,10 @@ export default function Home() {
       });
       const data = await res.json();
       if (!res.ok) {
-        navigate("/");
+        navigate("/login");
         return;
       }
-      if (data.loggedIn) setCurrentUser(data.email);
+      if (data.loggedIn) setCurrentUser(data.username);
     } catch (err) {
       console.error("Failed to fetch current user:", err);
     } finally {
@@ -52,7 +52,6 @@ export default function Home() {
     <>
       <NavBar currentUser={currentUser} setCurrentUser={setCurrentUser} />
       <MainPage jobs={jobs} getLoadJobs={getLoadJobs} />
-      <FormModal getLoadJobs={getLoadJobs} />
     </>
   );
 }

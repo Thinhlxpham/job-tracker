@@ -1,6 +1,6 @@
 import { Pencil, Trash } from "lucide-react";
 
-export default function JobLists({ jobs, getLoadJobs }) {
+export default function JobLists({ jobs, getLoadJobs, onEdit }) {
   async function deleteJob(id) {
     await fetch(`http://localhost:5000/jobs/${id}`, {
       method: "DELETE",
@@ -21,7 +21,7 @@ export default function JobLists({ jobs, getLoadJobs }) {
           </tr>
         </thead>
         <tbody>
-          {!jobs.length === 0 ? (
+          {jobs.length > 0 ? (
             jobs.map((job) => (
               <>
                 <tr
@@ -45,7 +45,10 @@ export default function JobLists({ jobs, getLoadJobs }) {
                   </td>
                   <td className="py-3.5 px-4 text-right">
                     <div className="flex justify-end gap-2 ">
-                      <button className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium w-8 h-8">
+                      <button
+                        className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium w-8 h-8"
+                        onClick={() => onEdit(job)}
+                      >
                         <Pencil className="w-3.5 h-3.5" />
                       </button>
                       <button
@@ -60,7 +63,11 @@ export default function JobLists({ jobs, getLoadJobs }) {
               </>
             ))
           ) : (
-            <h2>No application found!</h2>
+            <tr>
+              <td colSpan={6} className="py-6 px-4 text-center text-[#737373]">
+                No application found!
+              </td>
+            </tr>
           )}
         </tbody>
       </table>

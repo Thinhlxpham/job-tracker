@@ -11,7 +11,7 @@ export async function createJobsData() {
   await db.exec(`
     CREATE TABLE IF NOT EXISTS jobs (
       id INTEGER PRIMARY KEY,
-      company_name TEXT NOT NULL,
+      company TEXT NOT NULL,
       position TEXT NOT NULL,
       status TEXT CHECK(status IN ('applied', 'interview', 'reject', 'offer')) NOT NULL,
       date_applied DATE,
