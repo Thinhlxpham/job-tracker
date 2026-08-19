@@ -10,8 +10,9 @@ export async function updateJobs(req, res) {
   try {
     const db = await createJobsData();
     const result = await db.run(
-      `UPDATE jobs SET company = ?, position = ?,status=?, date_applied=?, note=? WHERE id = ?`,
+      `UPDATE jobs SET company = ?, position = ?,status=?, date_applied=?, note=?`,
       [company, position, status, date_applied, note],
+      req.params.id,
     );
     if (result.changes === 0) {
       return res.status(404).json({ error: "Job not change" });
