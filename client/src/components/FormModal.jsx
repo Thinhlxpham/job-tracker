@@ -43,7 +43,7 @@ export default function FormModal({
       },
       credentials: "include",
       body: JSON.stringify({
-        company_name: company,
+        company: company,
         position,
         status,
         date_applied: dateApplied || new Date().toISOString().slice(0, 10),
@@ -163,7 +163,7 @@ export default function FormModal({
               Cancel
             </button>
             <button
-              type="button"
+              type="submit"
               className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none border border-input bg-black shadow-sm hover:bg-[#353434] hover:text-white h-9  text-white cursor-pointer px-4 py-2"
             >
               {isEditing ? "Save" : "Add"}
